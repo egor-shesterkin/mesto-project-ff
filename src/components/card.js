@@ -1,9 +1,8 @@
-// Импорт нужных переменных и функций
-import { openModal } from "./modal.js";
-import { cardTemplate, popupImage, popupCaption, popupTypeImage } from '../index.js';
+// Темплейт карточки
+export const cardTemplate = document.querySelector('#card-template').content;
 
 // Функция создания карточки
-export function addCard(card, removeCard, likeCard) {
+export const createCard = (card, removeCard, likeCard, addPopupImage) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const cardImage = cardElement.querySelector('.card__image');
@@ -23,26 +22,18 @@ export function addCard(card, removeCard, likeCard) {
 
   cardImage.addEventListener('click', function () {
     addPopupImage(cardImage);
-    openModal(popupTypeImage, cardImage);
   })
 
   return cardElement;
 };
 
 // Функция удаления карточки
-export function removeCard(card) {
+export const removeCard = (card) => {
   card.remove();
 };
 
 // Функция проставления лайка
-export function likeCard(card) {
+export const likeCard = (card) => {
   const likeButton = card.querySelector('.card__like-button');
   likeButton.classList.toggle('card__like-button_is-active');
 };
-
-// Функция по добавлению описания и картинки в модалке по нажатию изображения
-function addPopupImage(cardImage) {
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardImage.alt;
-    popupCaption.textContent = cardImage.alt;
-}

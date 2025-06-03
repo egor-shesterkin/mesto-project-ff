@@ -1,12 +1,19 @@
 // Функция открытия модального окна
-export function openModal(popup) {
+export const openModal = (popup) => {
   popup.classList.add('popup_is-opened');
-  popup.classList.remove('popup_is-animated');
+  document.addEventListener('keydown', handleEscClose);
 }
 
 // Функция закрытия модального окна
-export function closeModal() {
-  const popup = document.querySelector('.popup_is-opened');
-  popup.classList.remove('popup_is-opened');
-  popup.classList.add('popup_is-animated');
+export const closeModal = () => {
+  const openedPopup = document.querySelector('.popup_is-opened');
+  openedPopup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', handleEscClose);
+}
+
+// Функция скрытия модального окна по клавише Esc
+const handleEscClose = (event) => {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
 }
