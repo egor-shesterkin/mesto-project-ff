@@ -9,6 +9,21 @@
   margin: 0 29px 0 0;
 }
 
+.profile__image:hover .overlay {
+  background-color: rgba(0,0,0,0.8);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.image__edit-button:focus-visible {
+  outline: none;
+}
+
+.profile__image:hover .image__pencil {
+  fill: white;
+}
+
 @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;

@@ -1,0 +1,18 @@
+.image__edit-button {
+  background: transparent;
+  border: none;
+  align-self: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  width: 26px;
+  height: 26px;
+}
+
+@media screen and (max-width: 480px) {
+  .image__edit-button {
+    width: 26px;
+    height: 26px;
+    background-size: 8px 8px;
+  }
+}
