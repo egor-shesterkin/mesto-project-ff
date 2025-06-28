@@ -23,6 +23,7 @@ const popupTypeEdit = document.querySelector('.popup_type_edit');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const popupTypeNewImage = document.querySelector('.popup_type_new-image');
 const popupTypeImage = document.querySelector('.popup_type_image');
+let userId;
 
 // Функция добавления новой карточки
 const handleFormNewCardSubmit = (event) => {
@@ -37,13 +38,15 @@ const handleFormNewCardSubmit = (event) => {
 
   addCard(newCard)
     .then((res) => {
-      placesList.prepend(createCard(res, removeCard, likeCard, addPopupImage));
+      placesList.prepend(createCard(res, userId, removeCard, likeCard, addPopupImage));
       formNewCard.reset();
-      renderLoading(false, formNewCard);
       closeModal();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, formNewCard);
     })
 };
 
@@ -55,12 +58,14 @@ const handleFormNewImagedSubmit = (event) => {
   updateAvatar(newImageUrl)
   .then((res) => {
         profileImage.style.backgroundImage = `url(${res.avatar})`;
-        renderLoading(false, formNewImage);
         formNewImage.reset();
         closeModal();
       })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    renderLoading(false, formNewImage);
   })
 };
 
@@ -68,15 +73,18 @@ const handleFormNewImagedSubmit = (event) => {
 const handleFormEditCardSubmit = (event) => {
   event.preventDefault();
   renderLoading(true, formEditCard);
-  nameInput.textContent = formEditCard.elements.name.value;
-  jobInput.textContent = formEditCard.elements.description.value;
+
   updateMyProfile(formEditCard)
   .then(() => {
-    renderLoading(false, formEditCard);
+    nameInput.textContent = formEditCard.elements.name.value;
+    jobInput.textContent = formEditCard.elements.description.value;
     closeModal();
   })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    renderLoading(false, formEditCard);
   })
 };
 
@@ -139,8 +147,9 @@ formNewImage.addEventListener('submit', handleFormNewImagedSubmit);
 
   Promise.all(promises)
   .then(responses => {
+      userId = responses[1]._id;
       responses[0].forEach((card) => {
-      placesList.append(createCard(card, removeCard, likeCard, addPopupImage));
+      placesList.append(createCard(card, userId, removeCard, likeCard, addPopupImage));
     });
     nameInput.textContent = responses[1].name;
     jobInput.textContent = responses[1].about;
